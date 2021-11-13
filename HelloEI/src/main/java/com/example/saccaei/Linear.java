@@ -10,7 +10,9 @@ import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.Iterator;
 import java.util.ResourceBundle;
+import java.util.Vector;
 
 
 public class Linear implements Initializable {
@@ -43,6 +45,21 @@ public class Linear implements Initializable {
         series.getData().add(new XYChart.Data(11, 29));
         series.getData().add(new XYChart.Data(12, 25));
 
+        lineChart.getData().add(series);
+    }
+
+    public void fillChart(LineChart lineChart){
+        lineChart.setTitle("Glycémie");
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Patient 1");
+
+        BDDController BDDGlycemie = new BDDController("C:\\CS\\2A\\ST5 Modèles de données\\EI");
+        Vector<Glycemie> data = BDDGlycemie.getData();
+        Iterator<Glycemie> it = data.iterator();
+        while(it.hasNext()){
+            Glycemie currentGlycemie = it.next();
+            series.getData().add(new XYChart.Data(currentGlycemie.getTime(), currentGlycemie.getTaux_glycemie()));
+        }
         lineChart.getData().add(series);
     }
 
