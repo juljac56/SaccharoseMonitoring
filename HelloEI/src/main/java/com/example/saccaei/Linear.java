@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -49,22 +50,54 @@ public class Linear implements Initializable {
     }
 
     public void fillChart(LineChart lineChart){
+
         lineChart.setTitle("Glycémie");
         XYChart.Series series = new XYChart.Series();
         series.setName("Patient 1");
-
-        BDDController BDDGlycemie = new BDDController("C:\\CS\\2A\\ST5 Modèles de données\\EI");
+        BDDController BDDGlycemie = new BDDController("C:\\CS\\2A\\ST5 Modèles de données\\EI\\BDD_Saccharose.db");
         Vector<Glycemie> data = BDDGlycemie.getData();
         Iterator<Glycemie> it = data.iterator();
         while(it.hasNext()){
             Glycemie currentGlycemie = it.next();
+            System.out.println(currentGlycemie.getDate());
             series.getData().add(new XYChart.Data(currentGlycemie.getTime(), currentGlycemie.getTaux_glycemie()));
+        }
+        lineChart.getData().add(series);
+    }
+
+    public void fillChartDate(LineChart lineChart, String date, Integer patientID){
+        lineChart.setTitle("Glycémie: " + date.toString());
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Patient" + patientID.toString());
+
+        BDDController BDDGlycemie = new BDDController(("C:\\CS\\2A\\ST5 Modèles de données\\EI\\BDD_Saccharose.db"));
+        Vector<Glycemie> data = BDDGlycemie.getDataDate(date);
+        Iterator<Glycemie> it = data.iterator();
+        while(it.hasNext()){
+            Glycemie currentGlycemie = it.next();
+            series.getData().add(new XYChart.Data(currentGlycemie.getTime().toString(), currentGlycemie.getTaux_glycemie()));
+        }
+        lineChart.getData().add(series);
+    }
+
+    public void fillChartMonth(LineChart lineChart, String dateDebut, Integer patientID){
+        lineChart.setTitle("Evolution de la glycémie dépuis " + dateDebut);
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Patient" + patientID.toString());
+
+        BDDController BDDGlycemie = new BDDController(("C:\\CS\\2A\\ST5 Modèles de données\\EI\\BDD_Saccharose.db"));
+        Vector<Glycemie> allData = BDDGlycemie.getDataMonth(dateDebut);
+        Vector<Glycemie> data = new Vector<Glycemie>();
+        Iterator<Glycemie> it = allData.iterator();
+        while(it.hasNext()){
+            Glycemie currentGlycemie = it.next();
+            series.getData().add(new XYChart.Data(currentGlycemie.getDate().toString(), currentGlycemie.getTaux_glycemie()));
         }
         lineChart.getData().add(series);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initChart(lineChartDemo);
+        fillChartMonth(lineChartDemo, "2021-11-01", 1);
     }
 }
