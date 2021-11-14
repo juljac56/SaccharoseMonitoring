@@ -1,9 +1,6 @@
 package com.example.saccaei;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Vector;
 
 public class BDDController extends JDBCController{
@@ -45,6 +42,24 @@ public class BDDController extends JDBCController{
         }catch(SQLException exc){System.out.println(exc);}
         this.closeConnection();
         return data;
+    }
+
+    public String getNom(int id){
+        String nom = "";
+        String prenom = "";
+        try{
+            Connection conn = DataBase.getConnection();
+            PreparedStatement statement = conn.prepareStatement("SELECT nom,prenom FROM MEDECIN WHERE ID = ?");
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            nom = rs.getString(1);
+            prenom = rs.getString(2);
+
+            statement.close();
+            connection.commit();
+        }catch(SQLException exc){System.out.println(exc);}
+        this.closeConnection();
+        return prenom+" "+nom;
     }
 
     public Vector<Glycemie> getDataMonth(String dateDebut){

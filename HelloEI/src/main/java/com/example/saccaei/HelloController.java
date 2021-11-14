@@ -33,8 +33,8 @@ public class HelloController {
     PasswordField password;
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    protected void welcome(String nom) {
+        welcomeText.setText("Bienvenue "+nom);
     }
 
     @FXML
@@ -46,7 +46,6 @@ public class HelloController {
             String user = username.getText();
             String mdp = password.getText();
 
-            // on cherche les id des auteurs du nouveau livre
             PreparedStatement ps = conn.prepareStatement("Select * FROM MEDECIN WHERE username = ? AND mdp = ?");
             ps.setString(1, user);
             ps.setString(2, mdp);
@@ -56,8 +55,12 @@ public class HelloController {
                 System.out.println("pas de connexion");
                 root = FXMLLoader.load(getClass().getResource("login.fxml"));}
             else{
-                System.out.println("Connexion ok");
-                root = FXMLLoader.load(getClass().getResource("linear.fxml"));
+                int id = rs.getInt(1);
+                BDDController BDDGlycemie = new BDDController(("C:\\CS\\2A\\ST5 Modèles de données\\EI\\BDD_Saccharose.db"));
+                String textNom = BDDGlycemie.getNom(id);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("linear.fxml"));
+                root = loader.load();
+                welcome(textNom);
             }
 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
