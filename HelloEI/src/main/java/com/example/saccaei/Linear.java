@@ -49,13 +49,13 @@ public class Linear implements Initializable {
         lineChart.getData().add(series);
     }
 
-    public void fillChart(LineChart lineChart){
+    public void fillChart(LineChart lineChart, Integer patientID){
 
         lineChart.setTitle("Glycémie");
         XYChart.Series series = new XYChart.Series();
         series.setName("Patient 1");
         BDDController BDDGlycemie = new BDDController("C:\\CS\\2A\\ST5 Modèles de données\\EI\\BDD_Saccharose.db");
-        Vector<Glycemie> data = BDDGlycemie.getData();
+        Vector<Glycemie> data = BDDGlycemie.getData(patientID);
         Iterator<Glycemie> it = data.iterator();
         while(it.hasNext()){
             Glycemie currentGlycemie = it.next();
@@ -71,7 +71,7 @@ public class Linear implements Initializable {
         series.setName("Patient" + patientID.toString());
 
         BDDController BDDGlycemie = new BDDController(("C:\\CS\\2A\\ST5 Modèles de données\\EI\\BDD_Saccharose.db"));
-        Vector<Glycemie> data = BDDGlycemie.getDataDate(date);
+        Vector<Glycemie> data = BDDGlycemie.getDataDate(date, patientID);
         Iterator<Glycemie> it = data.iterator();
         while(it.hasNext()){
             Glycemie currentGlycemie = it.next();
@@ -86,7 +86,7 @@ public class Linear implements Initializable {
         series.setName("Patient" + patientID.toString());
 
         BDDController BDDGlycemie = new BDDController(("C:\\CS\\2A\\ST5 Modèles de données\\EI\\BDD_Saccharose.db"));
-        Vector<Glycemie> allData = BDDGlycemie.getDataMonth(dateDebut);
+        Vector<Glycemie> allData = BDDGlycemie.getDataMonth(dateDebut, patientID);
         Vector<Glycemie> data = new Vector<Glycemie>();
         Iterator<Glycemie> it = allData.iterator();
         while(it.hasNext()){
