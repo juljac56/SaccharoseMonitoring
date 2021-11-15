@@ -160,7 +160,7 @@ public class Linear implements Initializable {
         Double limite = BDDGlycemie.getLimite(1);
         Vector<Glycemie> data = BDDGlycemie.getDataDate(date, patientID);
         Iterator<Glycemie> it = data.iterator();
-        System.out.println("test Date");
+        System.out.println("month" +limite);
         while(it.hasNext()){
             Glycemie currentGlycemie = it.next();
             if (currentGlycemie.getTaux_glycemie() > limite){
@@ -185,7 +185,7 @@ public class Linear implements Initializable {
         Vector<Glycemie> allData = BDDGlycemie.getDataMonth(dateDebut, patientID);
         Vector<Glycemie> data = new Vector<Glycemie>();
         Iterator<Glycemie> it = allData.iterator();
-        System.out.println("test month");
+        System.out.println(limite);
         while(it.hasNext()){
 
             Glycemie currentGlycemie = it.next();

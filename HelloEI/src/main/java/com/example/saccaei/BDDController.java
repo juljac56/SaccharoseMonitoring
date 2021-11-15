@@ -128,8 +128,11 @@ public class BDDController extends JDBCController {
         try {
             PreparedStatement ps = connection.prepareStatement("Select limite FROM PATIENT WHERE ID = ?");
             ps.setInt(1, id);
+            System.out.println("erreur");
             ResultSet rs = ps.executeQuery();
-            lim = Double.valueOf(rs.getString(1));
+            if (rs.next()){
+            System.out.println("get limit"+rs.getString(1));
+            lim = Double.valueOf(rs.getString(1));}
             ps.close();
         } catch (Exception e) {
             System.out.println(e);

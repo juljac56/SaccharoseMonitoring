@@ -80,7 +80,7 @@ public class HelloController {
     protected void modifierLimite(ActionEvent event) {
 
         String newLimite = modifierLimite.getText();
-        System.out.println(newLimite);
+        System.out.println("new limite"+ newLimite);
         if (newLimite.length() ==0){
             System.out.println("Rien a modifier");
         }
