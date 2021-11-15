@@ -98,7 +98,6 @@ public class BDDController extends JDBCController {
         }
         this.closeConnection();
 
-
         return data;
     }
 
