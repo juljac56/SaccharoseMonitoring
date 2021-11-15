@@ -152,7 +152,7 @@ public class Linear implements Initializable {
 
     public void fillChartDate(LineChart lineChart, String date, Integer patientID){
         boolean depasse = false;
-        lineChart.setTitle("Glycémie: " + date.toString());
+        lineChart.setTitle("Glycémie: " + date);
         XYChart.Series series = new XYChart.Series();
         series.setName("Patient" + patientID.toString());
 
@@ -167,7 +167,7 @@ public class Linear implements Initializable {
                 depasse = true;
                 alertLabel.setText("Attention \n la limite du taux de glycémie \n a été dépassée à la date : " + currentGlycemie.getTime() );
             }
-            series.getData().add(new XYChart.Data(currentGlycemie.getTime().toString(), currentGlycemie.getTaux_glycemie()));
+            series.getData().add(new XYChart.Data(currentGlycemie.getTime(), currentGlycemie.getTaux_glycemie()));
         }
         if (!depasse){alertLabel.setText("La limite \n du taux de glycémie \n n'a pas été dépassée \n sur la période considérée");}
         lineChart.getData().add(series);
@@ -202,6 +202,6 @@ public class Linear implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //fillChartMonth(lineChartMois, "2021-11-01", 1);
-        fillChartDate(lineChartDemo, "2021-11-15", 1);
+        fillChartDate(lineChartDemo, "2021-11-1", 1);
     }
 }

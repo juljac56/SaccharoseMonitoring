@@ -88,7 +88,7 @@ public class BDDController extends JDBCController {
             statement.setInt(2, patientID);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Glycemie currentGlycemie = new Glycemie(rs.getInt("id_glycemie"), rs.getDouble("taux_glycemie"), rs.getString("date"), rs.getString("heure"));
+                Glycemie currentGlycemie = new Glycemie(rs.getInt("id_glycemie"), Double.valueOf(rs.getString("taux_glycemie")), rs.getString("date"), rs.getString("heure"));
                 data.add(currentGlycemie);
             }
             statement.close();

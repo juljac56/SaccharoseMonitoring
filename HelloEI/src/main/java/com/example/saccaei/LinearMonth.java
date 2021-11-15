@@ -184,7 +184,7 @@ public class LinearMonth implements Initializable {
                 depasse = true;
                 alertLabel.setText("Attention \n la limite du taux de glycémie \n a été dépassée à la date : " + currentGlycemie.getTime() );
             }
-            series.getData().add(new XYChart.Data(currentGlycemie.getDate().toString(), currentGlycemie.getTaux_glycemie()));
+            series.getData().add(new XYChart.Data(currentGlycemie.getDate()+" "+currentGlycemie.getTime()   , currentGlycemie.getTaux_glycemie()));
         System.out.println(currentGlycemie.getTaux_glycemie());}
         if (!depasse){alertLabel.setText("La limite \n du taux de glycémie \n n'a pas été dépassée \n sur la période considérée");}
         lineChart.getData().add(series);

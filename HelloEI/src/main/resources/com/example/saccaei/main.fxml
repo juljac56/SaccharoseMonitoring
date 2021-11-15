@@ -44,7 +44,7 @@
       <Button mnemonicParsing="false" onAction="#fichePatient" text="Fiche Patient" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
       <Button mnemonicParsing="false" onAction="#goMois" text="Jours précédents" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
       <Label id="alertLabel" fx:id="alertLabel" text="Label" textFill="#c31313" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-      <Button mnemonicParsing="false" onAction="#goMain" text="Rafraichir" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+      <Button mnemonicParsing="false" onAction="#refreshButton" text="Rafraichir" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
       <TextField fx:id="dateMain" promptText="YYYY-MM-DD" GridPane.columnIndex="3" GridPane.rowIndex="1" />
    </children>
 </GridPane>
