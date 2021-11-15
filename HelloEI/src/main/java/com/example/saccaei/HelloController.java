@@ -18,51 +18,55 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Vector;
 
 public class HelloController {
     public Stage stage;
     public Scene  scene;
     public Parent root;
 
-    @FXML
-    private Label welcomeText;
 
     @FXML
     TextField username;
+
+    @FXML
+    TextField modifierLimite;
     @FXML
     PasswordField password;
 
     @FXML
-    protected void welcome(String nom) {
-        welcomeText.setText("Bienvenue "+nom);
+    private Label prenomText;
+
+    @FXML
+    private Label nomText;
+
+    @FXML
+    private Label limiteText;
+
+    @FXML
+    protected void fichePatient( String prenom,String nom, String limite) {
+        prenomText.setText(prenom);
+        nomText.setText(nom);
+        limiteText.setText(limite);
     }
 
     @FXML
     protected void loginOK(ActionEvent event) {
         System.out.println("Tentative login");
         try {
-
-            Connection conn = DataBase.getConnection();
             String user = username.getText();
             String mdp = password.getText();
-
-            PreparedStatement ps = conn.prepareStatement("Select * FROM MEDECIN WHERE username = ? AND mdp = ?");
-            ps.setString(1, user);
-            ps.setString(2, mdp);
-            ResultSet rs = ps.executeQuery();
-
-            if (!rs.isBeforeFirst() ) {
+            BDDController bdd = new BDDController("");
+            if (bdd.login(user,mdp)) {
                 System.out.println("pas de connexion");
                 root = FXMLLoader.load(getClass().getResource("login.fxml"));}
             else{
-                int id = rs.getInt(1);
-                BDDController BDDGlycemie = new BDDController(("C:\\CS\\2A\\ST5 Modèles de données\\EI\\BDD_Saccharose.db"));
-                String textNom = BDDGlycemie.getNom(id);
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("linear.fxml"));
+                System.out.println("authentification ok");
+                Vector<String> infoFiche = bdd.getNom(1);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
                 root = loader.load();
-                welcome(textNom);
+                //root = FXMLLoader.load(getClass().getResource("fiche.fxml"));
             }
-
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -71,4 +75,43 @@ public class HelloController {
         } catch (Exception e) {System.out.println(e);}
 
     }
-}
+
+    @FXML
+    protected void modifierLimite(ActionEvent event) {
+
+        String newLimite = modifierLimite.getText();
+        System.out.println(newLimite);
+        if (newLimite.length() ==0){
+            System.out.println("Rien a modifier");
+        }
+        else{
+            BDDController bdd = new BDDController("");
+            bdd.modifierLimite(newLimite);
+            try {
+                Vector<String> infoFiche = bdd.getNom(1);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("fiche.fxml"));
+                root = loader.load();
+                HelloController hc = loader.getController();
+                hc.fichePatient(infoFiche.get(0),infoFiche.get(1), infoFiche.get(2));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();}
+    }
+
+    @FXML
+    protected void goMain(ActionEvent event) {
+        try {    FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
+                root = loader.load();
+            }
+        catch (Exception e) {System.out.println(e);}
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+
+    }
