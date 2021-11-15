@@ -1,6 +1,7 @@
 package com.example.saccaei;
 
 import java.sql.*;
+import java.util.Iterator;
 import java.util.Vector;
 
 public class BDDController extends JDBCController {
@@ -83,7 +84,7 @@ public class BDDController extends JDBCController {
         Vector<Glycemie> data = new Vector<Glycemie>();
         this.getConnection();
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT id_glycemie, AVG(taux_glycemie) AS taux_glycemie, date, heure, id_patient FROM Glycemie WHERE date >= ? AND id_patient = ? GROUP BY date ORDER BY date, heure ASC");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Glycemie WHERE date >= ? AND id_patient = ? ORDER BY date, heure ASC");
             statement.setString(1, dateDebut);
             statement.setInt(2, patientID);
             ResultSet rs = statement.executeQuery();
@@ -97,7 +98,26 @@ public class BDDController extends JDBCController {
             System.out.println(e);
         }
         this.closeConnection();
-        return data;
+
+        Iterator<Glycemie> it = data.iterator();
+        Vector<Glycemie> dataMonth = new Vector<Glycemie>();
+        Integer count = 0;
+        dataMonth.add(data.firstElement());
+        while(it.hasNext()){
+            Glycemie currentGlycemie = it.next();
+            if(currentGlycemie.getDate() == dataMonth.lastElement().getDate()){
+                count ++;
+                Glycemie lastGlycemie = dataMonth.remove(dataMonth.size()-1);
+                Glycemie newGlycemie = new Glycemie (null, lastGlycemie.getTaux_glycemie()+ currentGlycemie.getTaux_glycemie(), lastGlycemie.getDate(), lastGlycemie.getTime());
+            }
+            else {
+                Glycemie lastGlycemie = dataMonth.remove(dataMonth.size()-1);
+                Glycemie newGlycemie = new Glycemie (null, lastGlycemie.getTaux_glycemie()/count, lastGlycemie.getDate(), lastGlycemie.getTime());
+                dataMonth.add(currentGlycemie);
+            }
+        }
+
+        return dataMonth;
     }
 
     public boolean login(String user, String mdp) {
