@@ -5,6 +5,7 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -42,7 +43,8 @@
       </LineChart>
       <Button mnemonicParsing="false" onAction="#fichePatient" text="Fiche Patient" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
       <Button mnemonicParsing="false" onAction="#goMois" text="Jours précédents" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-      <Label text="Label" textFill="#c31313"  id="alertLabel" fx:id="alertLabel" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-      <Button mnemonicParsing="false" text="Rafraichir" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" onAction="#goMain" />
+      <Label id="alertLabel" fx:id="alertLabel" text="Label" textFill="#c31313" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+      <Button mnemonicParsing="false" onAction="#goMain" text="Rafraichir" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+      <TextField fx:id="dateMain" promptText="YYYY-MM-DD" GridPane.columnIndex="3" GridPane.rowIndex="1" />
    </children>
 </GridPane>
