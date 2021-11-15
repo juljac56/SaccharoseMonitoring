@@ -49,6 +49,9 @@ public class Linear implements Initializable {
     TextField dateMonth;
 
     @FXML
+    LineChart lineChartMonth;
+
+    @FXML
     protected void fichePatient(ActionEvent event) {
         System.out.println("Tentative login");
         try {
@@ -99,7 +102,7 @@ public class Linear implements Initializable {
 
     public void refreshMonth(ActionEvent event){
         String date = dateMonth.getText();
-        fillChartMonth(lineChartDemo, date, 1);
+        fillChartMonth(lineChartMonth, date, 1);
     }
 
 
@@ -197,6 +200,6 @@ public class Linear implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //fillChartMonth(lineChartMois, "2021-11-01", 1);
-        fillChartMonth(lineChartDemo, "2021-11-01", 1);
+        //fillChartMonth(lineChartDemo, "2021-11-01", 1);
     }
 }
