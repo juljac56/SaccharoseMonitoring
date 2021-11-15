@@ -79,15 +79,16 @@ public class BDDController extends JDBCController {
     }
 
     public Vector<Glycemie> getDataMonth(String dateDebut, Integer patientID) {
+        this.getConnection();
         Vector<Glycemie> data = new Vector<Glycemie>();
         this.getConnection();
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT AVG(taux_glycemie) AS taux_glycemie, date, heure, id_patient FROM Glycemie WHERE date >= ? AND id_patient = ? GROUP BY date ORDER BY date, heure ASC");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Glycemie WHERE date >= ? AND id_patient = ? ORDER BY date, heure ASC");
             statement.setString(1, dateDebut);
             statement.setInt(2, patientID);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-            Glycemie currentGlycemie = new Glycemie(1, rs.getDouble("taux_glycemie"), rs.getString("date"), rs.getString("heure"));
+                Glycemie currentGlycemie = new Glycemie(rs.getInt("id_glycemie"), rs.getDouble("taux_glycemie"), rs.getString("date"), rs.getString("heure"));
                 data.add(currentGlycemie);
             }
             statement.close();
@@ -96,6 +97,8 @@ public class BDDController extends JDBCController {
             System.out.println(e);
         }
         this.closeConnection();
+
+
         return data;
     }
 
