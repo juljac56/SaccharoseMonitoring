@@ -43,6 +43,12 @@ public class Linear implements Initializable {
     Label alertLabel;
 
     @FXML
+    TextField dateMain;
+
+    @FXML
+    TextField dateMonth;
+
+    @FXML
     protected void fichePatient(ActionEvent event) {
         System.out.println("Tentative login");
         try {
@@ -84,6 +90,16 @@ public class Linear implements Initializable {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void refreshButton(ActionEvent event) {
+        String date = dateMain.getText();
+        fillChartDate(lineChartDemo, date, 1);
+    }
+
+    public void refreshMonth(ActionEvent event){
+        String date = dateMonth.getText();
+        fillChartMonth(lineChartDemo, date, 1);
     }
 
 
